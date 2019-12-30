@@ -1,0 +1,183 @@
+﻿{
+  "categories": [
+    {
+      "cat_name": "Search",
+      "sites": [
+        {
+          "total": 3085729,
+          "session_length": 0.196933333333277,
+          "data": {
+            "text": {
+              "html": {
+                "val": 756083,
+                "prop": 245
+              },
+              "javascript": {
+                "val": 2183083,
+                "prop": 707
+              }
+            },
+            "application": {
+              "json": {
+                "val": 50103,
+                "prop": 16
+              }
+            },
+            "image": {
+              "png": {
+                "val": 66459,
+                "prop": 21
+              }
+            },
+            "others": {
+              "val": 30001,
+              "prop": 11,
+              "types": "text/plain, application/javascript, application/binary, image/webp, image/x-icon, font/woff2, x-unknown"
+            }
+          },
+          "total_proportion": 1000,
+          "website": "Google"
+        },
+        {
+          "website": "Average Search website",
+          "data": {
+            "text": {
+              "val": 2939166,
+              "prop": 952
+            },
+            "application": {
+              "val": 50103,
+              "prop": 16
+            },
+            "image": {
+              "val": 66459,
+              "prop": 21
+            },
+            "others": {
+              "val": 30001,
+              "prop": 11
+            }
+          },
+          "total": 3085729,
+          "total_proportion": 1000
+        }
+      ]
+    },
+    {
+      "cat_name": "Video",
+      "sites": [
+        {
+          "total": 5386678,
+          "session_length": 3.6858000000000857,
+          "data": {
+            "text": {
+              "html": {
+                "val": 119748,
+                "prop": 22
+              },
+              "javascript": {
+                "val": 389326,
+                "prop": 72
+              }
+            },
+            "image": {
+              "jpeg": {
+                "val": 81063,
+                "prop": 15
+              },
+              "webp": {
+                "val": 915222,
+                "prop": 169
+              }
+            },
+            "video": {
+              "webm": {
+                "val": 2363563,
+                "prop": 438
+              }
+            },
+            "audio": {
+              "webm": {
+                "val": 1400875,
+                "prop": 260
+              }
+            },
+            "others": {
+              "val": 116881,
+              "prop": 24,
+              "types": "text/plain, text/css, text/xml, image/gif, image/x-icon, image/png, font/woff2, application/json, application/javascript, application/x-www-form-urlencoded, video/x-flv, x-unknown"
+            }
+          },
+          "total_proportion": 1000,
+          "website": "YouTube"
+        },
+        {
+          "total": 7503932,
+          "session_length": 3.712033333333352,
+          "data": {
+            "image": {
+              "jpeg": {
+                "val": 75056,
+                "prop": 10
+              }
+            },
+            "application": {
+              "javascript": {
+                "val": 152058,
+                "prop": 20
+              }
+            },
+            "video": {
+              "mp2t": {
+                "val": 6679158,
+                "prop": 890
+              },
+              "webm": {
+                "val": 488788,
+                "prop": 65
+              }
+            },
+            "others": {
+              "val": 108872,
+              "prop": 15,
+              "types": "image/gif, image/png, text/html, text/plain, text/javascript, text/xml, x-unknown, application/json, application/x-javascript, application/vnd.apple.mpegurl, application/x-gzip"
+            }
+          },
+          "total_proportion": 1000,
+          "website": "DailyMotion"
+        },
+        {
+          "website": "Average Video website",
+          "data": {
+            "text": {
+              "val": 254537,
+              "prop": 39
+            },
+            "image": {
+              "val": 535670,
+              "prop": 83
+            },
+            "video": {
+              "val": 4765754,
+              "prop": 739
+            },
+            "audio": {
+              "val": 700437,
+              "prop": 108
+            },
+            "others": {
+              "val": 112876,
+              "prop": 20
+            },
+            "application": {
+              "val": 76029,
+              "prop": 11
+            }
+          },
+          "total": 6445303,
+          "total_proportion": 1000
+        }
+      ]
+    }
+  ]
+}
