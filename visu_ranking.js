@@ -5,27 +5,69 @@
 //     .append("g")
 //     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 //
-// const sites_to_rank = []; // FIXME
+// const sites_to_rank = [];
+
+const ranking = (function(){
+    var sites = [];
+    function get_rank() {
+        return sites;
+    }
+    get_rank.remove = (site) => {
+        let idx = sites.findIndex(e => e.website === site.website);
+        if(idx !== -1)
+            sites.splice(idx, 1);
+    };
+    get_rank.push = (site) => {
+        if(sites.every(e => e.website !== site.website))
+            sites.push(site);
+    };
+    return get_rank;
+})();
 
 
-function displayRanking(data) {
-    console.log("Displaying rank for", data);
-    svg.selectAll("text")
-        .data(data.sort(d3.descending))
+function displayRanking() {
+    let data = ranking().sort((a,b) => d3.descending(a.total, b.total));
+
+    let max = d3.max(data, e => e.total);
+
+//       console.log(`Max is ${max}`, data);
+
+    var x = d3.scaleLinear()
+        .range([0, width/2])
+        .domain([0, max]);
+//       var x = (d) => {
+//         let c = xd3(d);
+//         console.log(`Checking size of ${d}: ${c}`);
+//         return c
+//       }
+
+    var ranks = svg.selectAll("rect")
+        .data(data, d => d.website)
         .order()
         .join(
-            enter => enter.append("text")
-                .attr("fill", "green")
-                .attr("x", -30)
-                .text(d => d.website)
-                .call(enter => enter.transition(t)
-                    .attr("x", 0)),
-            update => update.attr("fill", "black"),
+            enter =>
+                enter.append("rect")
+                    .attr("fill", "green")
+                    .attr("x", 0)
+                    .attr("y", (d, i) => (cell.height + cell.margin)*i )
+                    .attr("height", cell.height)
+                    .attr("width", d => x(d.total))
+                    .text(d => d.website),
+//             .call(enter => enter.transition(t)
+//               .attr("fill", "black")
+//               .attr("width", d => x(d.total))),
+            update => update.transition(t)
+                .attr("y", (d, i) => (cell.height + cell.margin)*i)
+                .attr("width", d => x(d.total)),
             exit => exit.attr("fill", "brown")
                 .call(exit => exit.transition(t)
-                    .attr("x", 30)
+                    .attr("x", d => x(d.total))
+                    .attr("width", 0)
                     .remove())
-        )
+        )//.each(d => console.log("Bouhhhh:", d));
+
+    // svg.selectAll("rect").data(ranks).each(d => console.log("d", d));
+    // console.log("ranks", ranks)
 }
 
 function createCategoryMenu(categories, menu) {
@@ -45,7 +87,7 @@ function createCategoryMenu(categories, menu) {
         .data(categories)
         .enter()
         .append("div")
-        .attr("class", "category border-top border-primary")
+        .attr("class", "category border-top border-primary mt-2")
         .html(c => categoryTemplate(c))
         .append("div")
         .attr("id", c => `cat-${getCategoryName(c)}`)
@@ -73,10 +115,10 @@ function createCategoryMenu(categories, menu) {
         .selectAll(".site")
         .select("input")
         .on("change", (d) => {
-            console.log(`${d3.event.target.checked? "C": "Unc"}hecked '${d.website}'`);
-            if(d3.event.target.checked) { sites_to_rank.push(d); }
-            else { sites_to_rank = sites_to_rank.filter(e => e.website !== d.website); }
-            displayRanking(sites_to_rank);
+            // console.log(`${d3.event.target.checked? "C": "Unc"}hecked '${d.website}'`);
+            if(d3.event.target.checked) { ranking.push(d); }
+            else { ranking.remove(d); }
+            displayRanking();
         })
 }
 

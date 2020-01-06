@@ -35,9 +35,8 @@
 
     const t = svg.transition()
             .duration(750);
-    var sites_to_rank = [];
 
-    d3.json("data2.json").then(data => {
+    d3.json("data.json").then(data => {
       console.log(data);
       var menu = d3.select("#categories");
       createCategoryMenu(data.categories, menu);
