@@ -1,15 +1,15 @@
-const svg = d3.select("#ranking_visu")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+// const svg = d3.select("#ranking_visu")
+//     .append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+//     .append("g")
+//     .attr("transform", `translate(${margin.left}, ${margin.top})`);
+//
+// const sites_to_rank = []; // FIXME
 
-const sites_to_rank = []; // FIXME
-const t = svg.transition()
-    .duration(750);
 
 function displayRanking(data) {
+    console.log("Displaying rank for", data);
     svg.selectAll("text")
         .data(data.sort(d3.descending))
         .order()
@@ -55,7 +55,7 @@ function createCategoryMenu(categories, menu) {
         .enter()
         .append("div")
         .attr("class", "site ml-3")
-        .html(s => siteTemplate(s))
+        .html(s => siteTemplate(s));
 
     d3.select("#categories")
         .selectAll(".category > .category-header > input")
@@ -73,10 +73,10 @@ function createCategoryMenu(categories, menu) {
         .selectAll(".site")
         .select("input")
         .on("change", (d) => {
-            console.log(`${d3.event.target.checked? "C": "Unc"}hecked '${d.website}'`)
+            console.log(`${d3.event.target.checked? "C": "Unc"}hecked '${d.website}'`);
             if(d3.event.target.checked) { sites_to_rank.push(d); }
             else { sites_to_rank = sites_to_rank.filter(e => e.website !== d.website); }
-            displayRanking(sites_to_rank)
+            displayRanking(sites_to_rank);
         })
 }
 

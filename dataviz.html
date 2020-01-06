@@ -3,9 +3,10 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-  <script src="visu_ranking.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="./visu_ranking.js"></script>
+  <script src="./visu_compare.js"></script>
   <style>
    /* body { margin:10px;position:fixed;top:0;right:0;bottom:0;left:0; } */
    .back-grey { background-color: grey; }
@@ -32,6 +33,10 @@
     .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
+    const t = svg.transition()
+            .duration(750);
+    var sites_to_rank = [];
+
     d3.json("data2.json").then(data => {
       console.log(data);
       var menu = d3.select("#categories");
@@ -39,7 +44,7 @@
       menu.selectAll(".category-header > input")
               .property("checked", true)
               .dispatch("change");
-      setTimeout(displayRanking(sites_to_rank), 50)
+      // setTimeout(displayRanking(sites_to_rank), 50)
     })
 
 
