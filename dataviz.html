@@ -1,0 +1,81 @@
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <style>
+   /* body { margin:10px;position:fixed;top:0;right:0;bottom:0;left:0; } */
+   .back-grey { background-color: grey; }
+    .float-right { float: right; }
+  </style>
+</head>
+
+<body>
+    <!-- <h1>Classement des sites</h1> -->
+  <div id="categories">
+  </div>
+  <div id="ranking_visu" class="back-grey"></div>
+  <script>
+    var margin = {top: 20, right: 30, bottom: 20, left: 50},
+    width = 960 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+    
+    var svg = d3.select("#ranking_visu")
+    .append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    d3.json("data2.json").then(data => {
+      console.log(data);
+      var menu = d3.select("#categories");
+      createCategoryMenu(data.categories, menu)
+    })
+    
+    function displayRanking() {
+      
+    }
+    
+    function createCategoryMenu(categories, menu) {
+      var categoryTemplate = (category) => `
+    		<div>
+					<input type=checkbox id="check-${getCategoryName(category)}">
+					<label for="check-${getCategoryName(category)}">${category.cat_name}</label>
+					<a class="btn btn-primary float-right" role="button" data-toggle="collapse" href="#cat-${getCategoryName(category)}">Show</a>
+    		</div>
+			`
+      var siteTemplate = (site) => `
+				<input type=checkbox id="check-${getSiteName(site)}">
+				<label for="check-${getSiteName(site)}">${site.website}</label>
+			`
+      
+      category = menu.selectAll(".category")
+        .data(categories)
+        	.enter()
+      	.append("div")
+          .attr("class", "category border-top border-primary")
+          .html(c => categoryTemplate(c))
+        .append("div")
+          .attr("id", c => `cat-${getCategoryName(c)}`)
+          .attr("class", "collapse")
+      	.selectAll(".site")
+      	.data(c => c.sites)
+      		.enter()
+      	.append("div")
+      		.attr("class", "site ml-3")
+      		.html(s => siteTemplate(s))
+    }
+    
+    function getCategoryName(category) {
+      return category.cat_name.toLowerCase().replace(" ", "-");
+    }
+    
+    function getSiteName(site) {
+      return site.website.toLowerCase().replace(" ", "-");
+    }
+
+  </script>
+</body>
