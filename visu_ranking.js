@@ -52,7 +52,8 @@ function displayRanking() {
                     .attr("y", (d, i) => (cell.height + cell.margin)*i )
                     .attr("height", cell.height)
                     .attr("width", d => x(d.total))
-                    .text(d => d.website),
+                    .text(d => d.website)
+                    .on("click", (d) => callCompareVisu(d)),
 //             .call(enter => enter.transition(t)
 //               .attr("fill", "black")
 //               .attr("width", d => x(d.total))),
@@ -128,4 +129,10 @@ function getCategoryName(category) {
 
 function getSiteName(site) {
     return site.website.toLowerCase().replace(" ", "-");
+}
+
+function callCompareVisu(site) {
+    let category = d3.select(`#check-${getSiteName(site)}`).node().parentNode.parentNode.parentNode.__data__;
+    // console.log(category)
+    showSimpleConsumption(site, category);
 }
