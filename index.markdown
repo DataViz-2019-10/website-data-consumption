@@ -20,13 +20,13 @@ Les données utilisées pour la visualisation ont été générées par nos soin
 
 ### Extraction des données
 
-Chacun des sites représenté sur la visualisation provient d'une session de *10 minutes*, passée uniquement sur ce site web comme une utilisateur lambda le ferait.
+Chacun des sites représentés sur la visualisation provient d'une session d'environ *10 minutes*, passée uniquement sur ce site web comme un utilisateur lambda le ferait.
 
 Après avoir terminé l'utilisation, une session est exportée au format `.har` par l'[outil d'inspection natif des navigateurs chromium](https://developers.google.com/web/tools/chrome-devtools/network).
 
 ### Transformation des données
 
-Afin d'être utilisables, les données doivent ensuite être transformées dans des formats beaucoup plus légers et confortables à manipuler.
+Afin d'être utilisables, les données doivent ensuite être transformées dans des formats plus légers et confortables à manipuler.
 La visualisation étant destinée à être modifiée souvent, il faut alors en extraire seulement les données pertinentes.
 
 Toute cette partie est gérée par le *Notebook*/*Script* [preprocess.ipynb](https://github.com/DataViz-2019-10/website-data-consumption/blob/master/preprocess.ipynb). Celui-ci prend en entrée des fichiers `.har` lourds de la forme suivante :
@@ -60,7 +60,7 @@ startedDateTime <str> (len: 24)
  |   _transferSize <int>
 ```
 
-Pour ensuite être transformés en fichiers `.json` :
+Pour les transformer en fichiers `.json` :
 
 ```
 {
@@ -89,4 +89,4 @@ Pour ensuite être transformés en fichiers `.json` :
 
 ### Chargement des données
 
-Les données sont ensuite chargées dans la [visualisation](./dataviz.html) directement depuis le format `.json`.
+Les données sont ensuite chargées dans la [visualisation](./dataviz.html) directement en format `.json`.
