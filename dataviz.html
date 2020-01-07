@@ -37,7 +37,7 @@
 
   <script>
     var margin = {top: 20, right: 30, bottom: 20, left: 50},
-        width = getSize(d3.select(visu_compare_id).style("width")) - margin.left - margin.right,
+        width = getSize(d3.select("#ranking_visu").style("width")) - margin.left - margin.right,
         height = 300 - margin.top - margin.bottom;
     var bar = {height: 100, margin: 10};
     var cell = {height: 20, margin: 5};
@@ -57,21 +57,24 @@
       while(max > 0 && isNaN(w = w.slice(0, -1))) {
         max--;
       }
-      return +w;
+      return +w || 960; // In case there is a problem, the visualisation will still be here
     }
 
   </script>
   <script src="./visu_compare.js"></script>
   <script src="./visu_ranking.js"></script>
   <script>
-    d3.json("data.json").then(data => {
-      console.log(data);
-      var menu = d3.select("#categories");
-      createCategoryMenu(data.categories, menu);
-      menu.selectAll(".category-header > input")
-              .property("checked", true)
-              .dispatch("change");
-      // setTimeout(displayRanking(sites_to_rank), 50)
-    })
+    window.addEventListener("load", () => {
+        d3.json("data.json").then(data => {
+            console.log(data);
+            var menu = d3.select("#categories");
+            createCategoryMenu(data.categories, menu);
+            menu.selectAll(".category-header > input")
+                .property("checked", true)
+                .dispatch("change");
+            // setTimeout(displayRanking(sites_to_rank), 50)
+        })
+    });
+
   </script>
 </body>
