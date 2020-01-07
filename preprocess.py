@@ -26,7 +26,7 @@ for c in categories:
             try:
                 data = json.load(f)
             except:
-                print('/ ! \ Error in file', filename)
+                print('!!! Error in file', filename)
             else:
                 data = retrieve_data(data)
                 data = preprocess(data)

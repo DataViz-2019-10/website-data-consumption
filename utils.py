@@ -1,5 +1,3 @@
-import json
-
 
 def print_keys(d, indent='\n'):
     if type(d) == dict:
@@ -117,32 +115,30 @@ def preprocess(js, total_prop = 1000, remove_threshold=10):
                         if d[k][k2]['prop'] < remove_threshold:
                             to_remove.append((k + '/' + k2))
     
-    string = ''
+    others = {}
     r_prop = 0
     r_val = 0
     for cat in to_remove:
-        string+=cat+', '
         keys = cat.split('/')
         
         if len(keys) > 1:
             r_prop += d[keys[0]][keys[1]]['prop']  #super moche mais plus facile 
             r_val += d[keys[0]][keys[1]]['val']
+            others[cat] = {'val': d[keys[0]][keys[1]]['val']}
             del d[keys[0]][keys[1]]
             if len(d[keys[0]].keys()) == 0:
                 del d[keys[0]]
         else:
             r_prop += d[keys[0]]['prop']  #super moche mais plus facile 
             r_val += d[keys[0]]['val']
+            others[cat] = {'val': d[keys[0]]['val']}
             del d[keys[0]]
-    string = string[:-2]
+
+    js['data']['others'] = others
+    js['data']['others']['val'] = js['total'] - s_val + r_val
+    js['data']['others']['prop'] = total_prop - s_prop + r_prop
     
-    js['data']['others'] = {
-        'val': js['total'] - s_val + r_val, 
-        'prop': total_prop - s_prop + r_prop,
-        'types': string.split(', ')
-    }
-    
-    js['array_data'] = dict_to_list(js['data'])
+    # js['array_data'] = dict_to_list(js['data'])
 
     return js
 
@@ -180,7 +176,7 @@ def compute_average_site(sites, cat_name):
         
         tot_val += val
         
-        avg['data'][t] = {'val': val }
+        avg['data'][t] = {'val': val}
         
     # computing prop:
     tot_prop = 0
