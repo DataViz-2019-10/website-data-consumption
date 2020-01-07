@@ -25,11 +25,12 @@
 
   <script>
     var margin = {top: 20, right: 30, bottom: 20, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+        width = getSize(d3.select(visu_compare_id).style("width")) - margin.left - margin.right,
+        height = 300 - margin.top - margin.bottom;
+    var bar = {height: 100, margin: 10};
     var cell = {height: 20, margin: 5};
     
-    var svg = d3.select("#ranking_visu")
+    var rank_svg = d3.select("#ranking_visu")
     .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -38,6 +39,14 @@
 
     const t = svg.transition()
             .duration(750);
+
+    function getSize(width) {
+      let w = width, max = width.length;
+      while(max > 0 && isNaN(w = w.slice(0, -1))) {
+        max--;
+      }
+      return +w;
+    }
 
   </script>
   <script src="./visu_compare.js"></script>

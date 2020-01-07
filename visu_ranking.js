@@ -26,6 +26,7 @@ const ranking = (function(){
 
 
 function displayRanking() {
+    var svg = rank_svg;
     let data = ranking().sort((a,b) => d3.descending(a.total, b.total));
 
     let max = d3.max(data, e => e.total);

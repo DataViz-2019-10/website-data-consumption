@@ -1,11 +1,6 @@
 const visu_compare_id = "#compare_visu";
 
-var margin = {top: 20, right: 30, bottom: 20, left: 50},
-    width = getSize(d3.select(visu_compare_id).style("width")) - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
-var bar = {height: 100, margin: 10};
-
-var svg = d3.select(visu_compare_id)
+var graph = d3.select(visu_compare_id)
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -21,6 +16,7 @@ const container = d3.select(visu_compare_id);
 
 
 function showSimpleConsumption(site, category) {
+    var svg = graph;
     console.log("Site:",site);
     console.log("Average:",category.average);
     console.log("Svg:", svg);
@@ -129,10 +125,4 @@ function formatSubtype(subtype, subtypeSize) {
     return `${subtype}: ${val.toFixed(2)} ${size[cpt]}`
 }
 
-function getSize(width) {
-    let w = width, max = width.length;
-    while(max > 0 && isNaN(w = w.slice(0, -1))) {
-        max--;
-    }
-    return +w;
-}
+
