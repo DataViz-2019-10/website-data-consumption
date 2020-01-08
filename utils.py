@@ -25,10 +25,17 @@ def parse_time(s):
 
 
 def retrieve_data(data):
+
+    mi = min(data['log']['entries'],
+             key=lambda x: parse_time(x['startedDateTime']))['startedDateTime']
+    ma = max(data['log']['entries'],
+             key=lambda x: parse_time(x['startedDateTime']))['startedDateTime']
+
+    length = parse_time(ma) - parse_time(mi)
+
     out = {
         'total': 0,
-        'session_length': (parse_time(data['log']['entries'][-1]['startedDateTime'])
-                           - parse_time(data['log']['entries'][0]['startedDateTime']))
+        'session_length': length
     }
 
     d = {}
