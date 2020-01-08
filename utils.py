@@ -69,8 +69,9 @@ def dict_to_list(dic):
     return liste
 
 
-def preprocess(js, total_prop = 1000, remove_threshold=10):
+def preprocess(js, total_prop=1000, remove_threshold=10):
     factor = js['session_length']
+    print(factor)
     total = js['total']
     js['total'] = int(js['total']/js['session_length'])
     js['total_proportion'] = total_prop
