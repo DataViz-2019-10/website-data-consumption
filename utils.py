@@ -25,10 +25,17 @@ def parse_time(s):
 
 
 def retrieve_data(data):
+
+    mi = min(data['log']['entries'],
+             key=lambda x: parse_time(x['startedDateTime']))['startedDateTime']
+    ma = max(data['log']['entries'],
+             key=lambda x: parse_time(x['startedDateTime']))['startedDateTime']
+
+    length = parse_time(ma) - parse_time(mi)
+
     out = {
         'total': 0,
-        'session_length': (parse_time(data['log']['entries'][-1]['startedDateTime'])
-                           - parse_time(data['log']['entries'][0]['startedDateTime']))
+        'session_length': length
     }
 
     d = {}
@@ -69,8 +76,9 @@ def dict_to_list(dic):
     return liste
 
 
-def preprocess(js, total_prop = 1000, remove_threshold=10):
+def preprocess(js, total_prop=1000, remove_threshold=10):
     factor = js['session_length']
+    print(factor)
     total = js['total']
     js['total'] = int(js['total']/js['session_length'])
     js['total_proportion'] = total_prop
