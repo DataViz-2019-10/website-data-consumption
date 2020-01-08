@@ -79,18 +79,20 @@ function showSimpleConsumption(site, category) {
             .on('mousemove', function(d) {
                 // on recupere la position de la souris
                 var mousePos = d3.mouse(this);
-                // on affiche le toolip
+
                 var subtypes = Object.keys(d)
-                    .filter(e => typeof d[e] === "object" && !Array.isArray(d[e]))
+                    .filter(e => typeof d[e] === "object" && !Array.isArray(d[e]));
                 subtypes = subtypes.map(s => formatSubtype(s, d[s].val));
-                if(d.type === "others") subtypes = d.types
+
+                if(subtypes.length === 0) subtypes = formatSubtype("total", d.val);
+
                 tooltip.classed('hidden', false)
                     .attr("transform", svgElem.transform)
                     // on positionne le tooltip en fonction de la position de la souris
                     .attr('style', 'left:' + (mousePos[0] + 15) +
                         'px; top:' + (mousePos[1] - 35) + 'px')
                     // on affiche le nom de l'etat et sa valeur (ou un message d'erreur)
-                    .html(`${d.type} (${subtypes ? subtypes.join(", "): ""})`);
+                    .html(`${d.type} (${Array.isArray(subtypes) ? subtypes.join(", "): "<i>"+subtypes+"</i>"})`);
             })
             .on('mouseout', function() {
                 // on cache le tooltip

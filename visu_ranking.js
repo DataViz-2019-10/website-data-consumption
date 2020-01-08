@@ -141,5 +141,6 @@ function getSiteName(site) {
 function callCompareVisu(site) {
     let category = d3.select(`#check-${getSiteName(site)}`).node().parentNode.parentNode.parentNode.__data__;
     // console.log(category)
+    d3.select("#compare_visu").classed("d-none", false);
     showSimpleConsumption(site, category);
 }

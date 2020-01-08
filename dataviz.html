@@ -35,7 +35,7 @@
   <div id="ranking_visu"></div>
 
   <hr/>
-  <div id="compare_visu"></div>
+  <div id="compare_visu" class="d-none"></div>
 
   <script>
     var margin = {top: 20, right: 30, bottom: 20, left: 100},
@@ -62,21 +62,18 @@
       return +w || 960; // In case there is a problem, the visualisation will still be here
     }
 
+    window.addEventListener("load", () => {
+      d3.json("data.json").then(data => {
+        console.log(data);
+        var menu = d3.select("#categories");
+        createCategoryMenu(data.categories, menu);
+        menu.selectAll(".category-header > input")
+                .property("checked", true)
+                .dispatch("change");
+        // setTimeout(displayRanking(sites_to_rank), 50)
+      })
+    });
   </script>
   <script src="./visu_compare.js"></script>
   <script src="./visu_ranking.js"></script>
-  <script>
-    window.addEventListener("load", () => {
-        d3.json("data.json").then(data => {
-            console.log(data);
-            var menu = d3.select("#categories");
-            createCategoryMenu(data.categories, menu);
-            menu.selectAll(".category-header > input")
-                .property("checked", true)
-                .dispatch("change");
-            // setTimeout(displayRanking(sites_to_rank), 50)
-        })
-    });
-
-  </script>
 </body>
