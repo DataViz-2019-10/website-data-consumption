@@ -82,7 +82,7 @@ function displayRanking() {
                     .attr("x", 0)
                     .attr("y", (d, i) => (cell.height + cell.margin)*i )
                     .attr("height", cell.height)
-                    .attr("transform", d => `translate(${x(d.total)},${cell.height - cell.margin})`)
+                    .attr("transform", d => `translate(${x(d.total) + cell.margin},${cell.height - cell.margin})`)
                     .text(d => d.website)
                     .on("click", (d) => callCompareVisu(d)),
             update => update.transition(t)
