@@ -31,6 +31,11 @@ def retrieve_data(data):
     ma = max(data['log']['entries'],
              key=lambda x: parse_time(x['startedDateTime']))['startedDateTime']
 
+    # print("max", ma)
+    # print("min", mi)
+    # print("max", parse_time(ma))
+    # print("min", parse_time(mi))
+
     length = parse_time(ma) - parse_time(mi)
 
     out = {
