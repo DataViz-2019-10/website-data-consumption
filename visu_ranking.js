@@ -82,9 +82,15 @@ function displayRanking() {
                     .attr("x", 0)
                     .attr("y", (d, i) => (cell.height + cell.margin)*i )
                     .attr("height", cell.height)
-                    .text(d => d.website),
-            update => update.transition(t).attr("y", (d, i) => (cell.height + cell.margin)*i)
+                    .attr("transform", d => `translate(${x(d.total)},${cell.height - cell.margin})`)
+                    .text(d => d.website)
+                    .on("click", (d) => callCompareVisu(d)),
+            update => update.transition(t)
+                    .attr("y", (d, i) => (cell.height + cell.margin)*i)
+                    .attr("transform", d => `translate(${x(d.total) + cell.margin},${cell.height - cell.margin})`)
         )
+
+    d3.select("#ranking_visu > svg").style("height", (cell.height + cell.margin)*data.length + margin.top + margin.bottom)
 }
 
 function createCategoryMenu(categories, menu) {
