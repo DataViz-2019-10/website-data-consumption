@@ -99,14 +99,16 @@ function displayRanking() {
 function createCategoryMenu(categories, menu) {
     var categoryTemplate = (category) => `
     		<div class="category-header">
-					<input type=checkbox id="check-${getCategoryName(category)}">
-					<label for="check-${getCategoryName(category)}">${category.cat_name}</label>
-					<a class="btn btn-primary float-right" role="button" data-toggle="collapse" href="#cat-${getCategoryName(category)}">Expand</a>
+    		         <label class="container" for="check-${getCategoryName(category)}">${category.cat_name}
+                        <input type="checkbox" id="check-${getCategoryName(category)}">
+                        <span class="checkmark"></span>
+                    </label>
+<!--					<a class="btn btn-primary float-right" role="button" data-toggle="collapse" href="#cat-${getCategoryName(category)}">E</a>-->
     		</div>
 			`;
     var siteTemplate = (site) => `
                 <label class="container" for="check-${getSiteName(site)}">${site.website}
-                    <input type=checkbox id="check-${getSiteName(site)}">
+                    <input type="checkbox" id="check-${getSiteName(site)}">
                     <span class="checkmark"></span>
                 </label>
 				<input class="slider" type="range" min="0" max="24" value="1">
@@ -118,6 +120,10 @@ function createCategoryMenu(categories, menu) {
         .append("div")
         .attr("class", "category border-top border-primary mt-2")
         .html(c => categoryTemplate(c))
+        .on("mouseenter", (c) => {
+            categories.map(c => $(`#cat-${getCategoryName(c)}`).collapse("hide"));
+            $(`#cat-${getCategoryName(c)}`).collapse("show")
+        })
         .append("div")
         .attr("id", c => `cat-${getCategoryName(c)}`)
         .attr("class", "collapse sites")
@@ -129,14 +135,14 @@ function createCategoryMenu(categories, menu) {
         .html(s => siteTemplate(s));
 
     d3.select("#categories")
-        .selectAll(".category > .category-header > input")
+        .selectAll(".category > .category-header > label > input")
         .on("change", () => {
             d3.select("#compare_visu").classed("d-none", true);
             let domElem = d3.event.target;
             let categoryName = domElem.id.replace("check-", "");
 //           console.log(`Update selection of category '${categoryName}'`);
             d3.select(`#cat-${categoryName}`)
-                .selectAll(".site > input")
+                .selectAll(".site > label> input")
                 .property("checked", domElem.checked)
                 .dispatch("change");
         });
@@ -144,6 +150,7 @@ function createCategoryMenu(categories, menu) {
     d3.select("#categories")
         .selectAll(".site")
         .select("input[type=checkbox]")
+        .property("checked", "checked")
         .on("change", (d) => {
             d3.select("#compare_visu").classed("d-none", true);
             if(d3.event.target.checked) { ranking.push(d); }
