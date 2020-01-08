@@ -47,7 +47,7 @@
     var margin = {top: 20, right: 30, bottom: 20, left: 50},
         width = getSize(d3.select("#ranking_visu").style("width")) - margin.left - margin.right,
         height = 300 - margin.top - margin.bottom;
-    var bar = {height: 100, margin: 10};
+    var bar = {height: 100, margin: 50, offsetTop: 10};
     var cell = {height: 20, margin: 5};
     
     var rank_svg = d3.select("#ranking_visu")

@@ -39,7 +39,7 @@ function showSimpleConsumption(site, category) {
         .data(data)
             .enter()
         .append("g")
-            .attr("transform", (d,i) => `translate(0, ${(bar.height+bar.margin)*i})`)
+            .attr("transform", (d,i) => `translate(0, ${(bar.height+bar.margin)*i+bar.offsetTop})`)
             .each((d,i,n) => siteDataStack(n[i], d));
 
 
@@ -66,7 +66,7 @@ function showSimpleConsumption(site, category) {
 //           		console.log("width scaled:", x(d.val))
                 return x(d.val);
             })
-            .attr("x", (d, i, arr) => {
+            .attr("x", (d) => {
                 return stack(x(d.val))
             })
             .attr("y", 0)
