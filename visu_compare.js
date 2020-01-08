@@ -39,17 +39,17 @@ function showSimpleConsumption(site, category) {
 
     svg.selectAll("g")
         .data(data)
-        .enter()
+            .enter()
         .append("g")
-        .attr("transform", (d,i) => `translate(0, ${(bar.height+bar.margin)*i})`)
-        .each((d,i,n) => siteDataStack(n[i], d));
+            .attr("transform", (d,i) => `translate(0, ${(bar.height+bar.margin)*i})`)
+            .each((d,i,n) => siteDataStack(n[i], d));
 
 
-    svg.append("g")
-        .attr("class", "y_axis")
-        .attr("transform", `translate(0,0)`)
-        .call(d3.axisLeft(d3.scaleBand()
-            .domain(["Mon site"])));
+    svg.selectAll("text").data([site, category.average]).join(
+        enter => enter.append("text")
+                    .attr("transform", (d,i) => `translate(0, ${(bar.height+bar.margin)*i})`)
+                    .text(d => `${d.website} (${formatSubtype("Total", d.total)})`)
+    );
 
     function siteDataStack(svgElem, site) {
 
@@ -125,7 +125,7 @@ function formatSubtype(subtype, subtypeSize) {
     while(cpt < size.length && val > 1e3) {
         val = val/1e3; cpt++;
     }
-    return `${subtype}: ${val.toFixed(2)} ${size[cpt]}`
+    return `${subtype}: ${val.toFixed(2)} ${size[cpt]}`;
 }
 
 

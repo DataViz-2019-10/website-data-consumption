@@ -59,7 +59,6 @@ function displayRanking() {
                     .attr("y", (d, i) => (cell.height + cell.margin)*i )
                     .attr("height", cell.height)
                     .attr("width", d => x(d.total))
-                    .text(d => d.website)
                     .on("click", (d) => callCompareVisu(d)),
 //             .call(enter => enter.transition(t)
 //               .attr("fill", "black")
@@ -74,8 +73,18 @@ function displayRanking() {
                     .remove())
         )//.each(d => console.log("Bouhhhh:", d));
 
-    // svg.selectAll("rect").data(ranks).each(d => console.log("d", d));
-    // console.log("ranks", ranks)
+    svg.selectAll("text")
+        .data(data, d => d.website)
+        .order()
+        .join(
+            enter => enter
+                .append("text")
+                    .attr("x", 0)
+                    .attr("y", (d, i) => (cell.height + cell.margin)*i )
+                    .attr("height", cell.height)
+                    .text(d => d.website),
+            update => update.transition(t).attr("y", (d, i) => (cell.height + cell.margin)*i)
+        )
 }
 
 function createCategoryMenu(categories, menu) {
@@ -110,6 +119,7 @@ function createCategoryMenu(categories, menu) {
     d3.select("#categories")
         .selectAll(".category > .category-header > input")
         .on("change", () => {
+            d3.select("#compare_visu").classed("d-none", true);
             let domElem = d3.event.target;
             let categoryName = domElem.id.replace("check-", "");
 //           console.log(`Update selection of category '${categoryName}'`);
@@ -123,7 +133,7 @@ function createCategoryMenu(categories, menu) {
         .selectAll(".site")
         .select("input")
         .on("change", (d) => {
-            // console.log(`${d3.event.target.checked? "C": "Unc"}hecked '${d.website}'`);
+            d3.select("#compare_visu").classed("d-none", true);
             if(d3.event.target.checked) { ranking.push(d); }
             else { ranking.remove(d); }
             displayRanking();
@@ -143,4 +153,11 @@ function callCompareVisu(site) {
     // console.log(category)
     d3.select("#compare_visu").classed("d-none", false);
     showSimpleConsumption(site, category);
+}
+
+function bestOfEachCategory() {
+    // Get current rank
+    // Get all categories currently shown
+    // For each category
+        // Get best site of current rank
 }
