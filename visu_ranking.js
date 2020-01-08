@@ -109,7 +109,6 @@ function createCategoryMenu(categories, menu) {
                     <input type=checkbox id="check-${getSiteName(site)}">
                     <span class="checkmark"></span>
                 </label>
-				<br>
 				<input class="slider" type="range" min="0" max="24" value="1">
 			`;
 
