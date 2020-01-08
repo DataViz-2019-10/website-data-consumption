@@ -68,6 +68,14 @@
       return +w || 960; // In case there is a problem, the visualisation will still be here
     }
 
+    function formatSize(size) {
+      let cpt = 0, sizeUnits = ["o", "Ko", "Mo", "Go"], val = size;
+      while(cpt < sizeUnits.length && val > 1e3) {
+        val = val/1e3; cpt++;
+      }
+      return `${val.toFixed(2)} ${sizeUnits[cpt]}`
+    }
+
     window.addEventListener("load", () => {
       d3.json("data.json").then(data => {
         // console.log(data);

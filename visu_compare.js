@@ -121,11 +121,7 @@ function formatData(site) {
 }
 
 function formatSubtype(subtype, subtypeSize) {
-    let cpt = 0, size = ["o", "Ko", "Mo", "Go"], val = subtypeSize;
-    while(cpt < size.length && val > 1e3) {
-        val = val/1e3; cpt++;
-    }
-    return `${subtype}: ${val.toFixed(2)} ${size[cpt]}`;
+    return `${subtype}: ${formatSize(subtypeSize)}`;
 }
 
 

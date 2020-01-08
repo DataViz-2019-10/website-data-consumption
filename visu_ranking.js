@@ -83,12 +83,12 @@ function displayRanking() {
                     .attr("y", (d, i) => (cell.height + cell.margin)*i )
                     .attr("height", cell.height)
                     .attr("transform", d => `translate(${x(d.total) + cell.margin},${cell.height - cell.margin})`)
-                    .text(d => d.website)
+                    .text(d => `${d.website} (${formatSize(d.total)})`)
                     .on("click", (d) => callCompareVisu(d)),
             update => update.transition(t)
                     .attr("y", (d, i) => (cell.height + cell.margin)*i)
                     .attr("transform", d => `translate(${x(d.total) + cell.margin},${cell.height - cell.margin})`)
-        )
+        );
 
     d3.select("#ranking_visu > svg").style("height", (cell.height + cell.margin)*data.length + margin.top + margin.bottom)
 }
