@@ -105,9 +105,12 @@ function createCategoryMenu(categories, menu) {
     		</div>
 			`;
     var siteTemplate = (site) => `
-				<input type=checkbox id="check-${getSiteName(site)}">
-				<label for="check-${getSiteName(site)}">${site.website}</label>
-				<input type="range" min="0" max="24" value="1">
+                <label class="container" for="check-${getSiteName(site)}">${site.website}
+                    <input type=checkbox id="check-${getSiteName(site)}">
+                    <span class="checkmark"></span>
+                </label>
+				<br>
+				<input class="slider" type="range" min="0" max="24" value="1">
 			`;
 
     category = menu.selectAll(".category")
