@@ -17,6 +17,7 @@ const container = d3.select(visu_compare_id);
 
 function showSimpleConsumption(site, category) {
     var svg = graph;
+    svg.selectAll("*").remove();
     console.log("Site:",site);
     console.log("Average:",category.average);
     console.log("Svg:", svg);

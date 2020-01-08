@@ -10,7 +10,7 @@
 const ranking = (function(){
     var sites = [];
     function get_rank() {
-        return sites;
+        return sites.sort((a,b) => d3.descending(a.total, b.total));
     }
     get_rank.remove = (site) => {
         let idx = sites.findIndex(e => e.website === site.website);
@@ -21,13 +21,19 @@ const ranking = (function(){
         if(sites.every(e => e.website !== site.website))
             sites.push(site);
     };
+    get_rank.changeImpact = (site, impact) => {
+        let idx = sites.findIndex(e => e.website === site.website);
+        if(idx !== -1) {
+            sites[idx].impact = impact
+        }
+    };
     return get_rank;
 })();
 
 
 function displayRanking() {
     var svg = rank_svg;
-    let data = ranking().sort((a,b) => d3.descending(a.total, b.total));
+    let data = ranking();
 
     let max = d3.max(data, e => e.total);
 
