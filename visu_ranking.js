@@ -62,6 +62,15 @@ function displayRanking() {
                     .attr("y", (d, i) => (cell.height + cell.margin)*i )
                     .attr("height", cell.height)
                     .attr("width", d => x(d.total*getImpact(d)))
+                    .attr("cursor", "pointer")
+                    .on("mouseover", function(d) {
+                        var elem = d3.select(this);
+                        elem.style("fill", d3.rgb(elem.style("fill")).brighter(0.5));
+                    })
+                    .on('mouseout', function() {
+                        var elem = d3.select(this);
+                        elem.style("fill", d3.rgb(elem.style("fill")).darker(0.5));
+                    })
                     .on("click", (d) => callCompareVisu(d)),
 //             .call(enter => enter.transition(t)
 //               .attr("fill", "black")
