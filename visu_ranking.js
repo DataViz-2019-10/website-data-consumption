@@ -147,11 +147,15 @@ function createCategoryMenu(categories, menu) {
 }
 
 function getCategoryName(category) {
-    return category.cat_name.toLowerCase().replace(" ", "-");
+    return sanitize(category.cat_name);
 }
 
 function getSiteName(site) {
-    return site.website.toLowerCase().replace(" ", "-");
+    return sanitize(site.website);
+}
+
+function sanitize(text) {
+    return text.toLowerCase().replace(" ", "-").replace(".","-")
 }
 
 function callCompareVisu(site) {

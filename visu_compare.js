@@ -18,9 +18,9 @@ const container = d3.select(visu_compare_id);
 function showSimpleConsumption(site, category) {
     var svg = graph;
     svg.selectAll("*").remove();
-    console.log("Site:",site);
-    console.log("Average:",category.average);
-    console.log("Svg:", svg);
+    // console.log("Site:",site);
+    // console.log("Average:",category.average);
+    // console.log("Svg:", svg);
 
     var tooltip = container.append('div')
         .attr('class', 'hidden tooltip');
@@ -28,10 +28,8 @@ function showSimpleConsumption(site, category) {
     var color = d3.scaleQuantize()			.range(["#93c3df","#6daed5","#4b97c9","#2f7ebc","#1864aa","#0a4a90","#08306b"])
         .domain([0, Object.keys(site.data).length]);
 
-    const sorting = (x,y) => d3.descending(x.prop, y.prop);
-
     var data = [formatData(site), formatData(category.average)];
-    console.log("data", data)
+    // console.log("data", data)
     var max = d3.max([site, category.average], e => e.total);
     var x = d3.scaleLinear()
         .range([0, width])
@@ -86,11 +84,13 @@ function showSimpleConsumption(site, category) {
 
                 if(subtypes.length === 0) subtypes = formatSubtype("total", d.val);
 
+                let transform = d3.select(svgElem).attr("transform").replace("translate(", "").replace(")","").split(",");
+                let offsetX = +transform[0], offsetY = +transform[1];
+
                 tooltip.classed('hidden', false)
-                    .attr("transform", svgElem.transform)
                     // on positionne le tooltip en fonction de la position de la souris
-                    .attr('style', 'left:' + (mousePos[0] + 15) +
-                        'px; top:' + (mousePos[1] - 35) + 'px')
+                    .attr('style', 'left:' + (mousePos[0] + 15 + offsetX) +
+                        'px; top:' + (mousePos[1] - 35 + offsetY) + 'px')
                     // on affiche le nom de l'etat et sa valeur (ou un message d'erreur)
                     .html(`${d.type} (${Array.isArray(subtypes) ? subtypes.join(", "): "<i>"+subtypes+"</i>"})`);
             })

@@ -70,7 +70,7 @@
 
     window.addEventListener("load", () => {
       d3.json("data.json").then(data => {
-        console.log(data);
+        // console.log(data);
         var menu = d3.select("#categories");
         createCategoryMenu(data.categories, menu);
         menu.selectAll(".category-header > input")
