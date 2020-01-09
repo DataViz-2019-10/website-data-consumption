@@ -115,7 +115,7 @@ function createCategoryMenu(categories, menu) {
     var categoryTemplate = (category) => `
     		<div class="category-header">
     		         <label class="container" for="check-${getCategoryName(category)}">${category.cat_name}
-                        <input type="checkbox" id="check-${getCategoryName(category)}">
+                        <input type="checkbox" class="category-check" id="check-${getCategoryName(category)}">
                         <span class="checkmark"></span>
                     </label>
 <!--					<a class="btn btn-primary float-right" role="button" data-toggle="collapse" href="#cat-${getCategoryName(category)}">E</a>-->
@@ -128,6 +128,9 @@ function createCategoryMenu(categories, menu) {
                 </label>
 				<input class="slider" type="range" min="0" max="24" value="1">
 			`;
+
+    var tooltip = container.append('div')
+        .attr('class', 'hidden tooltip');
 
     category = menu.selectAll(".category")
         .data(categories)
@@ -238,3 +241,14 @@ function bestOfEachCategory() {
         .append("li")
         .text(d => `${d.website} (pour la catégorie '${d.category.cat_name}')`);
 }
+
+$("#checkAll").click(function(){
+    let status = $(this).prop("checked");
+
+    $('input:checkbox.category-check').not(this).each( function( index, element ) {
+        if ($(this).prop("checked") !== status) {
+            $(this).trigger("click");
+        }
+
+    });
+});
