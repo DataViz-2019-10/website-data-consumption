@@ -98,9 +98,9 @@ function displayRanking() {
                 .attr("y", (d, i) => (cell.height + cell.margin)*i )
                 .attr("height", cell.height)
                 .attr("transform", d => `translate(${x(d.total*getImpact(d)) + cell.margin},${cell.height - cell.margin})`)
-                .text(d => `${d.website} (${formatSize(d.total*getImpact(d))}/min)`)
+                .text(d => `${d.website} (${formatSize(d.total*getImpact(d))})`)
                 .on("click", (d) => callCompareVisu(d)),
-            update => update.text(d => `${d.website} (${formatSize(d.total*getImpact(d))}/min)`)
+            update => update.text(d => `${d.website} (${formatSize(d.total*getImpact(d))})`)
                 .call(update => update.transition(t)
                     .attr("y", (d, i) => (cell.height + cell.margin)*i)
                     .attr("transform", d => `translate(${x(d.total*getImpact(d)) + cell.margin},${cell.height - cell.margin})`))
