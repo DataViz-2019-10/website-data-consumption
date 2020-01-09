@@ -14,6 +14,8 @@ En considérant que tout un chacun n'a pas un forfait de données illimité, il 
 
 {% include_relative dataviz.html %}
 
+> Par défaut, les données sont représentées par minute
+
 ## Données
 
 Les données utilisées pour la visualisation ont été générées par nos soins, et suivent un cycle ETL (Extract Transform Load).
