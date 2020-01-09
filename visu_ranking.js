@@ -106,7 +106,7 @@ function displayRanking() {
                     .attr("transform", d => `translate(${x(d.total*getImpact(d)) + cell.margin},${cell.height - cell.margin})`))
         );
 
-    d3.select("#ranking_visu > svg").style("height", (cell.height + cell.margin)*data.length + margin.top + margin.bottom)
+    d3.select("#ranking_visu > svg").style("height", `${(cell.height + cell.margin)*data.length + margin.top + margin.bottom}px`);
 
     bestOfEachCategory();
 }
