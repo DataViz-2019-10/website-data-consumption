@@ -1,3 +1,4 @@
+
 // const svg = d3.select("#ranking_visu")
 //     .append("svg")
 //     .attr("width", width + margin.left + margin.right)
@@ -26,6 +27,10 @@ const ranking = (function(){
         if(idx !== -1) {
             sites[idx].impact = impact
         }
+    };
+    get_rank.getMinOf = (sitesNames) => {
+        let catSites = sites.filter(s => sitesNames.includes(s.website));
+        return catSites.filter(s => (s.total*getImpact(s)) === d3.min(catSites, e => e.total*getImpact(e))).shift();
     };
     return get_rank;
 })();
@@ -89,19 +94,21 @@ function displayRanking() {
         .join(
             enter => enter
                 .append("text")
-                    .attr("x", 0)
-                    .attr("y", (d, i) => (cell.height + cell.margin)*i )
-                    .attr("height", cell.height)
-                    .attr("transform", d => `translate(${x(d.total*getImpact(d)) + cell.margin},${cell.height - cell.margin})`)
-                    .text(d => `${d.website} (${formatSize(d.total*getImpact(d))}/min)`)
-                    .on("click", (d) => callCompareVisu(d)),
+                .attr("x", 0)
+                .attr("y", (d, i) => (cell.height + cell.margin)*i )
+                .attr("height", cell.height)
+                .attr("transform", d => `translate(${x(d.total*getImpact(d)) + cell.margin},${cell.height - cell.margin})`)
+                .text(d => `${d.website} (${formatSize(d.total*getImpact(d))}/min)`)
+                .on("click", (d) => callCompareVisu(d)),
             update => update.text(d => `${d.website} (${formatSize(d.total*getImpact(d))}/min)`)
-                    .call(update => update.transition(t)
-                        .attr("y", (d, i) => (cell.height + cell.margin)*i)
-                        .attr("transform", d => `translate(${x(d.total*getImpact(d)) + cell.margin},${cell.height - cell.margin})`))
+                .call(update => update.transition(t)
+                    .attr("y", (d, i) => (cell.height + cell.margin)*i)
+                    .attr("transform", d => `translate(${x(d.total*getImpact(d)) + cell.margin},${cell.height - cell.margin})`))
         );
 
     d3.select("#ranking_visu > svg").style("height", (cell.height + cell.margin)*data.length + margin.top + margin.bottom)
+
+    bestOfEachCategory();
 }
 
 function createCategoryMenu(categories, menu) {
@@ -197,7 +204,37 @@ function callCompareVisu(site) {
 
 function bestOfEachCategory() {
     // Get current rank
+    var data = ranking();
+
     // Get all categories currently shown
+    var categories = d3.select("#categories")
+        .selectAll(".category")
+        .nodes()
+        .filter(c => d3.select(c).select(".category-header").select("input").property("checked"))
+        .map(c => c.__data__);
+
     // For each category
+    var bestSites = [];
+    for (let category of categories) {
         // Get best site of current rank
+        let min = ranking.getMinOf(category.sites.map(s => s.website));
+        if (min) {
+            min.category = category;
+            bestSites.push(min);
+        }
+    }
+
+    var selection = d3.select("#best_sites");
+
+    selection.select("p").remove();
+    selection.select("ul").remove();
+
+    selection.append("p")
+        .text("Compte tenu de vos paramètres actuels, les sites internet les plus respectueux de votre forfait selon chaque catégorie sont :")
+    let selec = selection.append("ul")
+        .selectAll("li")
+        .data(bestSites)
+        .enter()
+        .append("li")
+        .text(d => `${d.website} (pour la catégorie '${d.category.cat_name}')`);
 }
