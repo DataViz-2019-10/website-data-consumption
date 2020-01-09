@@ -13,6 +13,9 @@ const ranking = (function(){
     function get_rank() {
         return sites.sort((a,b) => d3.descending(a.total*getImpact(a), b.total*getImpact(b)));
     }
+    get_rank.reset = () => {
+        sites = [];
+    };
     get_rank.remove = (site) => {
         let idx = sites.findIndex(e => e.website === site.website);
         if(idx !== -1)
@@ -44,8 +47,6 @@ function displayRanking() {
     let data = ranking();
 
     let max = d3.max(data, e => e.total*getImpact(e));
-
-//       console.log(`Max is ${max}`, data);
 
     var x = d3.scaleLinear()
         .range([0, width/2])
@@ -86,7 +87,7 @@ function displayRanking() {
                     .attr("x", d => x(d.total*getImpact(d)))
                     .attr("width", 0)
                     .remove())
-        )//.each(d => console.log("Bouhhhh:", d));
+        )
 
     svg.selectAll("text")
         .data(data, d => d.website)
@@ -96,6 +97,7 @@ function displayRanking() {
                 .append("text")
                 .attr("x", 0)
                 .attr("y", (d, i) => (cell.height + cell.margin)*i )
+                .attr("cursor", "pointer") // Make it look like it is clickable
                 .attr("height", cell.height)
                 .attr("transform", d => `translate(${x(d.total*getImpact(d)) + cell.margin},${cell.height - cell.margin})`)
                 .text(d => `${d.website} (${formatSize(d.total*getImpact(d))})`)
@@ -163,6 +165,9 @@ function createCategoryMenu(categories, menu) {
                 .selectAll(".site > label> input")
                 .property("checked", domElem.checked)
                 .dispatch("change");
+            if(d3.select("#rankAverage").property("checked")) {
+                d3.select("#rankAverage").dispatch("change")
+            }
         });
 
     d3.select("#categories")
@@ -171,8 +176,9 @@ function createCategoryMenu(categories, menu) {
         .property("checked", "checked")
         .on("change", (d) => {
             d3.select("#compare_visu").classed("d-none", true);
-            if(d3.event.target.checked) { ranking.push(d); }
-            else { ranking.remove(d); }
+            if(d3.event.target.checked && !d3.select("#rankAverage").property("checked")) {
+                ranking.push(d);
+            } else { ranking.remove(d); }
             displayRanking();
         });
 
@@ -183,6 +189,35 @@ function createCategoryMenu(categories, menu) {
             d3.select("#compare_visu").classed("d-none", true);
             ranking.changeImpact(d, +d3.event.target.value);
             displayRanking();
+        });
+
+    d3.select("#checkAll")
+        .on("change", () => {
+            d3.select(`#categories`)
+                .selectAll("input.category-check")
+                .property("checked", d3.event.target.checked)
+                .dispatch("change");
+            displayRanking();
+        });
+
+    d3.select("#rankAverage")
+        .on("change", () => {
+            if(d3.event.target.checked) {
+                ranking.reset();
+                var categories = d3.select("#categories")
+                    .selectAll(".category")
+                    .nodes()
+                    .filter(c => d3.select(c).select(".category-header").select("input").property("checked"))
+                    .map(c => c.__data__);
+                categories.forEach(c => ranking.push(c.average));
+                displayRanking();
+            } else {
+                ranking.reset();
+                d3.select(`#categories`)
+                    .selectAll(".site > label> input")
+                    // .property("checked", d => console.log(d))
+                    .dispatch("change");
+            }
         })
 }
 
@@ -241,14 +276,3 @@ function bestOfEachCategory() {
         .append("li")
         .text(d => `${d.website} (pour la catégorie '${d.category.cat_name}')`);
 }
-
-$("#checkAll").click(function(){
-    let status = $(this).prop("checked");
-
-    $('input:checkbox.category-check').not(this).each( function( index, element ) {
-        if ($(this).prop("checked") !== status) {
-            $(this).trigger("click");
-        }
-
-    });
-});

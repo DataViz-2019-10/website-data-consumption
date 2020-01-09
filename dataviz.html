@@ -44,13 +44,24 @@
         <hr/>
         <div id="compare_visu" class="d-none"></div>
       </div>
-      <div class="col-sm-4">
-        <label class="container">Tout
-          <input type="checkbox" id="checkAll" checked>
-          <span class="checkmark"></span>
-        </label>
-        <div id="categories" style="overflow: hidden">
-        </div>
+      <div class="col-sm-4" style="overflow: hidden">
+          <div class="row">
+              <div class="col-12">
+                  <div class="border border-primary p-3 mb-3">
+                      <label class="container">Tout cocher
+                          <input type="checkbox" id="checkAll" checked>
+                          <span class="checkmark"></span>
+                      </label>
+                      <label class="container">Classer les catégories
+                          <input type="checkbox" id="rankAverage">
+                          <span class="checkmark"></span>
+                      </label>
+                  </div>
+                  <div id="categories"></div>
+              </div>
+          </div>
+
+
       </div>
     </div>
 
