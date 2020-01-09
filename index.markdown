@@ -82,8 +82,8 @@ Pour les transformer en fichiers `.json` :
         <site1>,
         <site2>,
         ...
-        <average site>
-      ]
+      ],
+      "average": <average site>
     },
   ]
 }
