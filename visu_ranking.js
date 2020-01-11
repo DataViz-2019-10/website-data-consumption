@@ -116,11 +116,16 @@ function displayRanking() {
 function createCategoryMenu(categories, menu) {
     var categoryTemplate = (category) => `
     		<div class="category-header">
-    		         <label class="container" for="check-${getCategoryName(category)}">${category.cat_name}
+    		         <label class="container" for="check-${getCategoryName(category)}">
                         <input type="checkbox" class="category-check" id="check-${getCategoryName(category)}">
                         <span class="checkmark"></span>
                     </label>
-<!--					<a class="btn btn-primary float-right" role="button" data-toggle="collapse" href="#cat-${getCategoryName(category)}">E</a>-->
+                    <label>"  "           ${category.cat_name}
+                    </label>
+                    <i class="float-right" role="button" data-toggle="collapse" href="#cat-${getCategoryName(category)}">
+                        <span class="glyphicon glyphicon-collapse-down"></span>
+					</i>
+
     		</div>
 			`;
     var siteTemplate = (site) => `
@@ -140,10 +145,10 @@ function createCategoryMenu(categories, menu) {
         .append("div")
         .attr("class", "category border-top border-primary mt-2")
         .html(c => categoryTemplate(c))
-        .on("mouseenter", (c) => {
-            categories.map(c => $(`#cat-${getCategoryName(c)}`).collapse("hide"));
-            $(`#cat-${getCategoryName(c)}`).collapse("show")
-        })
+        // .on("mouseenter", (c) => {
+        //     categories.map(c => $(`#cat-${getCategoryName(c)}`).collapse("hide"));
+        //     $(`#cat-${getCategoryName(c)}`).collapse("show")
+        // })
         .append("div")
         .attr("id", c => `cat-${getCategoryName(c)}`)
         .attr("class", "collapse sites")
