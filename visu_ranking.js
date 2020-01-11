@@ -145,10 +145,6 @@ function createCategoryMenu(categories, menu) {
         .append("div")
         .attr("class", "category border-top border-primary mt-2")
         .html(c => categoryTemplate(c))
-        // .on("mouseenter", (c) => {
-        //     categories.map(c => $(`#cat-${getCategoryName(c)}`).collapse("hide"));
-        //     $(`#cat-${getCategoryName(c)}`).collapse("show")
-        // })
         .append("div")
         .attr("id", c => `cat-${getCategoryName(c)}`)
         .attr("class", "collapse sites")
@@ -194,6 +190,7 @@ function createCategoryMenu(categories, menu) {
             d3.select("#compare_visu").classed("d-none", true);
             ranking.changeImpact(d, +d3.event.target.value);
             displayRanking();
+            d3.select("#resetSliders").property("checked", false);
         });
 
     d3.select("#checkAll")
@@ -203,6 +200,23 @@ function createCategoryMenu(categories, menu) {
                 .property("checked", d3.event.target.checked)
                 .dispatch("change");
             displayRanking();
+        });
+
+    d3.select("#resetSliders")
+        .on("change", () => {
+            if(d3.event.target.checked) {
+                d3.select(`#categories`)
+                    .selectAll(".site")
+                    .select("input[type=range]")
+                    .nodes()
+                    .map(e => {
+                        el = d3.select(e)
+                        el.property("value", "1");
+                        ranking.changeImpact(e.__data__, 1)
+                    })
+                displayRanking();
+            }
+
         });
 
     d3.select("#rankAverage")
