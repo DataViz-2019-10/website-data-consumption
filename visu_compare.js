@@ -21,8 +21,7 @@ function showSimpleConsumption(site, category) {
     // console.log("Site:",site);
     // console.log("Average:",category.average);
     // console.log("Svg:", svg);
-
-    var tooltip = container.append('div')
+    var tooltip = d3.select("body").append('div')
         .attr('class', 'hidden tooltip');
 
     var color = d3.scaleQuantize()			.range(["#93c3df","#6daed5","#4b97c9","#2f7ebc","#1864aa","#0a4a90","#08306b"])
@@ -76,7 +75,8 @@ function showSimpleConsumption(site, category) {
             })
             .on('mousemove', function(d) {
                 // on recupere la position de la souris
-                var mousePos = d3.mouse(this);
+                // var mousePos = d3.mouse(d3.event.target);
+                // console.log(mousePos)
 
                 var subtypes = Object.keys(d)
                     .filter(e => typeof d[e] === "object" && !Array.isArray(d[e]));
@@ -84,13 +84,13 @@ function showSimpleConsumption(site, category) {
 
                 if(subtypes.length === 0) subtypes = formatSubtype("total", d.val);
 
-                let transform = d3.select(svgElem).attr("transform").replace("translate(", "").replace(")","").split(",");
-                let offsetX = +transform[0], offsetY = +transform[1];
-
+                // let transform = d3.select(svgElem).attr("transform").replace("translate(", "").replace(")","").split(",");
+                // let offsetX = +transform[0], offsetY = +transform[1];
+                // var pos = d3.event.pageY - 15 + offsetY;
                 tooltip.classed('hidden', false)
                     // on positionne le tooltip en fonction de la position de la souris
-                    .attr('style', 'left:' + (mousePos[0] + 15 + offsetX) +
-                        'px; top:' + (mousePos[1] - 35 + offsetY) + 'px')
+                    .attr('style', 'left:' + (d3.event.pageX + 15) +
+                        'px; top:' + (d3.event.pageY - 15) + 'px')
                     // on affiche le nom de l'etat et sa valeur (ou un message d'erreur)
                     .html(`${d.type} (${Array.isArray(subtypes) ? subtypes.join(", "): "<i>"+subtypes+"</i>"})`);
             })
