@@ -191,7 +191,7 @@ function createCategoryMenu(categories, menu) {
             ranking.changeImpact(d, +d3.event.target.value);
             displayRanking();
             d3.select("#resetSliders").property("checked", false);
-        });
+        })
 
     d3.select("#checkAll")
         .on("change", () => {
