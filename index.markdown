@@ -24,7 +24,36 @@ Les données utilisées pour la visualisation ont été générées par nos soin
 
 Chacun des sites représentés sur la visualisation provient d'une session d'environ *10 minutes*, passée uniquement sur ce site web comme un utilisateur lambda le ferait.
 
-Après avoir terminé l'utilisation, une session est exportée au format `.har` par l'[outil d'inspection natif des navigateurs chromium](https://developers.google.com/web/tools/chrome-devtools/network).
+Une fois la session de 10 minutes terminée, nous pouvons exporter les informations récoltées grâce au bouton d'export de l'[outil d'inspection natif des navigateurs chromium](https://developers.google.com/web/tools/chrome-devtools/network) :
+
+![](img/network_chrome.png){:width="75%"}
+
+Dans le cadre de la récupération de données provenant de site de même catégories, nous avons au mieux essayé de les comparer en reproduisant des comportements identiques. Par exemple pour la récupération des données provenant des différents moteurs de recherche, nous avons effectué les mêmes recherches en suivant le même protocole pour chacun des sites.
+
+Après avoir terminé la session, les résultats sont exportés au format `.har` et ensuites mis dans leur dossier de catégorie correspondante :
+
+```
+├── cinema
+│   ├── Allocine.har
+│   ├── Imdb.har
+│   └── Rottentomatoes.har
+├── mail
+│   ├── Google.har
+│   └── Hotmail.har
+├── news
+│   ├── 20minutes.har
+│   ├── Korben.info.har
+│   ├── Lefigaro.har
+│   ├── Lemonde.har
+│   ├── Nytimes.har
+│   └── Washingtonpost.har
+├── search
+│   ├── Bing.har
+│   ├── Duckduckgo.har
+│   ├── GoogleImages.har
+│   ├── Qwant.har
+│   └── Yahoo.har
+```
 
 ### Transformation des données
 
@@ -89,6 +118,11 @@ Pour les transformer en fichiers `.json` :
 }
 ```
 
+
 ### Chargement des données
 
-Les données sont ensuite chargées dans la [visualisation](./dataviz.html) directement en format `.json`.
+Les données sont ensuite chargées dans la [visualisation](./dataviz.html) directement en format `.json` par d3.js.
+
+Voici un schéma pour résumer ce processus 
+
+![](img/ETL.png)
