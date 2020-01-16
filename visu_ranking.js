@@ -133,7 +133,7 @@ function createCategoryMenu(categories, menu) {
                     <input type="checkbox" id="check-${getSiteName(site)}">
                     <span class="checkmark"></span>
                 </label>
-				<input class="slider" type="range" min="0" max="24" value="1">
+				<input class="slider" type="range" min="0" max="24" value="1" data-toggle="tooltip" title="1 h/jour">
 			`;
 
     var tooltip = container.append('div')
@@ -141,19 +141,19 @@ function createCategoryMenu(categories, menu) {
 
     category = menu.selectAll(".category")
         .data(categories)
-        .enter()
+            .enter()
         .append("div")
-        .attr("class", "category border-top border-primary mt-2")
-        .html(c => categoryTemplate(c))
+            .attr("class", "category border-top border-primary mt-2")
+            .html(c => categoryTemplate(c))
         .append("div")
-        .attr("id", c => `cat-${getCategoryName(c)}`)
-        .attr("class", "collapse sites")
-        .selectAll(".site")
-        .data(c => c.sites)
-        .enter()
-        .append("div")
-        .attr("class", "site ml-3")
-        .html(s => siteTemplate(s));
+            .attr("id", c => `cat-${getCategoryName(c)}`)
+            .attr("class", "collapse sites")
+            .selectAll(".site")
+            .data(c => c.sites)
+                .enter()
+            .append("div")
+                .attr("class", "site ml-3")
+                .html(s => siteTemplate(s));
 
     d3.select("#categories")
         .selectAll(".category > .category-header > label > input")
@@ -186,12 +186,18 @@ function createCategoryMenu(categories, menu) {
     d3.select("#categories")
         .selectAll(".site")
         .select("input[type=range]")
-        .on("change", (d) => {
+        .on("change.impact", (d) => {
             d3.select("#compare_visu").classed("d-none", true);
             ranking.changeImpact(d, +d3.event.target.value);
             displayRanking();
             d3.select("#resetSliders").property("checked", false);
         })
+        .on("change.tooltip", function(d) {
+            $(this).tooltip('dispose');
+            d3.select(this)
+                .property("title", `${getImpact(d)} h/jour`);
+            $(this).tooltip();
+        });
 
     d3.select("#checkAll")
         .on("change", () => {
@@ -210,10 +216,10 @@ function createCategoryMenu(categories, menu) {
                     .select("input[type=range]")
                     .nodes()
                     .map(e => {
-                        el = d3.select(e)
+                        el = d3.select(e);
                         el.property("value", "1");
                         ranking.changeImpact(e.__data__, 1)
-                    })
+                    });
                 displayRanking();
             }
 
@@ -237,7 +243,11 @@ function createCategoryMenu(categories, menu) {
                     // .property("checked", d => console.log(d))
                     .dispatch("change");
             }
-        })
+        });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 }
 
 function getCategoryName(category) {
