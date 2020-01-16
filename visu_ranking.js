@@ -8,6 +8,8 @@
 //
 // const sites_to_rank = [];
 
+const DEFAULT_IMPACT = 10;
+
 const ranking = (function(){
     var sites = [];
     function get_rank() {
@@ -39,7 +41,7 @@ const ranking = (function(){
 })();
 
 function getImpact(s) {
-    return (typeof s.impact) === "number" ? s.impact: 1;
+    return (typeof s.impact) === "number" ? s.impact: DEFAULT_IMPACT;
 }
 
 function displayRanking() {
@@ -131,9 +133,9 @@ function createCategoryMenu(categories, menu) {
                 <label class="container" for="check-${getSiteName(site)}">${site.website}
                     <input type="checkbox" id="check-${getSiteName(site)}">
                     <span class="checkmark"></span>
-                    <span class="badge badge-primary">1h/jour</span>
+                    <span class="badge badge-primary">${DEFAULT_IMPACT}min/jour</span>
                 </label>
-				<input class="slider" type="range" min="0" max="24" value="1"/>
+				<input class="slider" type="range" min="0" max="240" value="${DEFAULT_IMPACT}"/>
 			`;
 
     var tooltip = container.append('div')
@@ -196,7 +198,7 @@ function createCategoryMenu(categories, menu) {
             d3.select(this.parentNode)
                 .select("label")
                 .select(".badge")
-                    .text(`${getImpact(d)}h/jour`);
+                    .text(`${getImpact(d)}min/jour`);
         });
 
     d3.select("#checkAll")
@@ -214,7 +216,7 @@ function createCategoryMenu(categories, menu) {
                 d3.select(`#categories`)
                     .selectAll(".site")
                     .select("input[type=range]")
-                    .property("value", "1")
+                    .property("value", DEFAULT_IMPACT)
                     .dispatch("change");
                 d3.select(this).property("checked", true);
                 displayRanking();
