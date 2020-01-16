@@ -82,12 +82,12 @@ function displayRanking() {
                 .call(update => update.transition(t)
                     .attr("y", (d, i) => (cell.height + cell.margin)*i)
                     .attr("width", d => x(d.total*getImpact(d)))),
-            exit => exit.attr("fill", "brown")
-                .call(exit => exit.transition(t)
+            exit => exit.transition(t)
                     .attr("x", d => x(d.total*getImpact(d)))
                     .attr("width", 0)
-                    .remove())
-        )
+                    .attr("fill", "white")
+                    .remove()
+        );
 
     svg.selectAll("text")
         .data(data, d => d.website)
@@ -116,12 +116,11 @@ function displayRanking() {
 function createCategoryMenu(categories, menu) {
     var categoryTemplate = (category) => `
     		<div class="category-header">
-    		         <label class="container" for="check-${getCategoryName(category)}">
+    		        <label class="container" for="check-${getCategoryName(category)}">
                         <input type="checkbox" class="category-check" id="check-${getCategoryName(category)}">
                         <span class="checkmark"></span>
                     </label>
-                    <label>"  "           ${category.cat_name}
-                    </label>
+                    <label class="pl-4 ml-3">${category.cat_name}</label>
                     <i class="float-right" role="button" data-toggle="collapse" href="#cat-${getCategoryName(category)}">
                         <span class="glyphicon glyphicon-collapse-down"></span>
 					</i>
@@ -132,8 +131,9 @@ function createCategoryMenu(categories, menu) {
                 <label class="container" for="check-${getSiteName(site)}">${site.website}
                     <input type="checkbox" id="check-${getSiteName(site)}">
                     <span class="checkmark"></span>
+                    <span class="badge badge-primary">1h/jour</span>
                 </label>
-				<input class="slider" type="range" min="0" max="24" value="1" data-toggle="tooltip" title="1 h/jour">
+				<input class="slider" type="range" min="0" max="24" value="1"/>
 			`;
 
     var tooltip = container.append('div')
@@ -193,10 +193,10 @@ function createCategoryMenu(categories, menu) {
             d3.select("#resetSliders").property("checked", false);
         })
         .on("change.tooltip", function(d) {
-            $(this).tooltip('dispose');
-            d3.select(this)
-                .property("title", `${getImpact(d)} h/jour`);
-            $(this).tooltip();
+            d3.select(this.parentNode)
+                .select("label")
+                .select(".badge")
+                    .text(`${getImpact(d)}h/jour`);
         });
 
     d3.select("#checkAll")
@@ -209,17 +209,14 @@ function createCategoryMenu(categories, menu) {
         });
 
     d3.select("#resetSliders")
-        .on("change", () => {
+        .on("change", function() {
             if(d3.event.target.checked) {
                 d3.select(`#categories`)
                     .selectAll(".site")
                     .select("input[type=range]")
-                    .nodes()
-                    .map(e => {
-                        el = d3.select(e);
-                        el.property("value", "1");
-                        ranking.changeImpact(e.__data__, 1)
-                    });
+                    .property("value", "1")
+                    .dispatch("change");
+                d3.select(this).property("checked", true);
                 displayRanking();
             }
 
