@@ -1,7 +1,7 @@
 # Websites data consumption (Consommation de données des sites web)
 
 <p align="center">
-  <img src="./img/group10-teaser.png" width="50vw" alt="Project's teaser">
+  <img src="./img/group10-teaser.png" width="50%" alt="Project's teaser">
 </p>
 
 This project was done at [Université Claude Bernard Lyon 1](https://www.univ-lyon1.fr/) (Lyon, France) 
