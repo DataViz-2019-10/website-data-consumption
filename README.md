@@ -1,5 +1,7 @@
 # Websites data consumption (Consommation de données des sites web)
 
+<img src="./img/group10-teaser.png" style="width: 50%;" alt="Project's teaser">
+
 This project was done at [Université Claude Bernard Lyon 1](https://www.univ-lyon1.fr/) (Lyon, France) 
 for the [Data Visualization](https://lyondataviz.github.io/teaching/lyon1-m2/2017/) course of the 
 [Artificial Intelligence Master](http://master-info.univ-lyon1.fr/IA/)'s Degree (2019).
