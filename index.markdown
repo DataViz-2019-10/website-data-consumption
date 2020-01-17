@@ -6,6 +6,18 @@ layout: page
 title: Visualisation
 ---
 
+## Projet
+
+Ce projet a été réalisé dans le cadre de l'UE [Data Visualisation](https://lyondataviz.github.io/teaching/lyon1-m2/2017/) du 
+[Master 2 Intelligence Artificielle](http://master-info.univ-lyon1.fr/IA/) 
+de [l'Université Claude Bernard Lyon 1](https://www.univ-lyon1.fr/).
+
+Les membres du projet sont :
+- Julien PERIER-CAMBY ([email](mailto:j.perier1@gmail.com))
+- Gary SUBLET ([email](mailto:gary.sublet@hotmail.fr), [github](github.com/GaryOma))
+- Pierre-Elliott THIBOUD ([email](mailto:pierre-elliott@thiboud.fr), [github](github.com/pierreelliott), [site](pierre-elliott.thiboud.fr))
+- Quentin VILLERMET ([github](github.com/QuVil))
+
 ## Contextualisation
 
 En considérant que tout un chacun n'a pas un forfait de données illimité, il peut être intéressant de classer les différents sites internet visités habituellement suivant leur consommation de cette ressource rare (et éventuellement leurs performances).
